@@ -25,7 +25,6 @@ async def extract_loot(file_url, remote=True):
 
     ocr = list(filter(bool, ocr_result))
     ocr, item_rarity = determine_item_rarity(ocr)
-    print(ocr)
     item_name = determine_item_name(ocr[1])
     item_untuned = determine_item_untuned(ocr)
     item_level = determine_item_level(ocr)

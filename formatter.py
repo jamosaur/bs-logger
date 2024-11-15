@@ -1,5 +1,4 @@
 def format_for_csv(username, loot_object):
-    print(loot_object)
     return ','.join([
         username,
         'None',
