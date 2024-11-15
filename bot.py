@@ -46,7 +46,8 @@ async def on_message(message):
 
     joinedList = loots + coin_drops
     formattedList = "\n".join(joinedList)
-    await message.channel.send(f"<@{message.author.id}> ```{formattedList}```")
+    if len(formattedList):
+        await message.channel.send(f"<@{message.author.id}> ```{formattedList}```")
 
 
 client.run(os.getenv('TOKEN'))
