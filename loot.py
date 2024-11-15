@@ -58,5 +58,29 @@ async def extract_loot(file_url, remote=True):
     return loot_item
 
 
+def create_coins_drop(amount):
+    return {
+        'type': 'currency',
+        'coins_drop': amount,
+        'qty': None,
+        'item': 'coins',
+        'value': None,
+        'real_value': None,
+        'rarity': None,
+        'untuned': None,
+        'level_req': None,
+        'impact_res': None,
+        'cryonae_res': None,
+        'arborae_res': None,
+        'tempestae_res': None,
+        'infernae_res': None,
+        'necromae_res': None,
+        'strength': None,
+        'magic_chance': None,
+        'magic_element': None,
+        'faction': None,
+        'profession': None
+    }
+
 if __name__ == '__main__':
     print('Hello!')
