@@ -1,12 +1,15 @@
+import os
 import easyocr
 import numpy
 import requests
 from PIL import Image
+import torch
 
 from image_utils import determine_profession
 from items import determine_item_name, determine_item_rarity, determine_item_untuned, determine_item_level, \
     determine_item_characteristics, determine_item_stats_and_value
 
+reader = easyocr.Reader(['en'])
 
 async def extract_loot(file_url, remote=True):
     if remote:
@@ -20,7 +23,6 @@ async def extract_loot(file_url, remote=True):
     profession = determine_profession(img)
 
     pic = numpy.array(resized_image)
-    reader = easyocr.Reader(['en'])
     ocr_result = reader.readtext(pic, detail=0, paragraph=True)
 
     ocr = list(filter(bool, ocr_result))
@@ -54,6 +56,10 @@ async def extract_loot(file_url, remote=True):
         'profession': profession[0]
     }
 
+    #torch.cuda.empty_cache()
+    #torch.cuda.reset_peak_memory_stats()
+    #torch.cuda.reset_accumulated_memory_stats()
+
     return loot_item
 
 
@@ -82,4 +88,21 @@ def create_coins_drop(amount):
     }
 
 if __name__ == '__main__':
-    print('Hello!')
+    import asyncio
+    import requests
+    from formatter import format_for_json
+    import dotenv
+
+    dotenv.load_dotenv()
+
+    def run():
+        async def r():
+            loot1 = await extract_loot('img/drops/guard/01.png', False)
+            loot2 = await extract_loot('img/drops/guard/02.png', False)
+            api_data = {
+                'data': [loot1, loot2]
+            }
+            requests.post(os.getenv('API_URL'), json=api_data)
+        asyncio.run(r())
+
+    run()

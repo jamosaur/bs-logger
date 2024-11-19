@@ -1,0 +1,8 @@
+services:
+  bot:
+    build: .
+    command: python3 bot.py
+    volumes:
+      - .:/app
+    env_file:
+      - .env

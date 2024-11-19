@@ -456,7 +456,7 @@ def determine_item_stats_and_value(ocr, type, characteristics):
 
         if len(stats) != 6:
             # We can't figure out the stats from the data, so return it empty.
-            return stats_value
+            return ocr, stats_value
 
         # Set the resistance values.
         try:

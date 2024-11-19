@@ -23,6 +23,9 @@ async def on_message(message):
 
     coin_drops = []
     loots = []
+    api_data = {
+        'data': []
+    }
 
     if message.attachments:
         await message.add_reaction('\N{STOPWATCH}')
@@ -30,6 +33,9 @@ async def on_message(message):
         for idx, attachment in enumerate(message.attachments):
             loot = await extract_loot(attachment)
             loots.append(format_for_csv(message.author.global_name, loot))
+            loot['user'] = message.author.global_name
+            loot['file_url'] = str(attachment.proxy_url)
+            api_data['data'].append(loot)
         await message.add_reaction('\N{WHITE HEAVY CHECK MARK}')
 
     if message.content.startswith('!coins'):
@@ -43,11 +49,20 @@ async def on_message(message):
             for input in inputs:
                 loot = create_coins_drop(input)
                 coin_drops.append(format_for_csv(message.author.global_name, loot))
+                loot['user'] = message.author.global_name
+                api_data['data'].append(loot)
 
     joinedList = loots + coin_drops
     formattedList = "\n".join(joinedList)
     if len(formattedList):
         await message.channel.send(f"<@{message.author.id}> ```{formattedList}```")
+
+    if len(api_data):
+        import requests
+        try:
+            requests.post(os.getenv('API_URL'), json=api_data)
+        except Exception as e:
+            pass
 
 
 client.run(os.getenv('TOKEN'))

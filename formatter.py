@@ -1,3 +1,5 @@
+import json
+
 def format_for_csv(username, loot_object):
     return ','.join([
         username,
@@ -24,3 +26,8 @@ def format_for_csv(username, loot_object):
         str(loot_object['faction'].title()) if loot_object['faction'] else '',
         str(loot_object['profession']) if loot_object['profession'] else ''
     ])
+
+def format_for_json(username, loot_object):
+    loot_object['username'] = username
+
+    return json.dumps(loot_object, indent=4)

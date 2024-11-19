@@ -18,4 +18,5 @@ def determine_profession(img):
             min_val, _, _, _ = minMaxLoc(result)
             profession_list.append((profession, min_val, t))
 
+    print(sorted(profession_list, key=lambda x: x[1]))
     return sorted(profession_list, key=lambda x: x[1])[0]
