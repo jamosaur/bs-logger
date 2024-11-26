@@ -2,13 +2,13 @@ import json
 
 def format_for_csv(username, loot_object):
     return ','.join([
-        username,
+        username if username else '',
         'None',
         '',
-        loot_object['type'].title(),
+        loot_object['type'].title() if loot_object['type'] else '',
         str(loot_object['coins_drop']) if loot_object['coins_drop'] else '',
         '',
-        loot_object['item'].title().replace("'S", "'s"),
+        loot_object['item'].title().replace("'S", "'s") if loot_object['item'] else '',
         str(loot_object['value']) if loot_object['value'] else '',
         '',
         str(loot_object['rarity'].title()) if loot_object['rarity'] else '',
